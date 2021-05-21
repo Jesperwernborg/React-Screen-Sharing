@@ -1,10 +1,18 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import CreateRoom from "./routes/CreateRoom";
 import Room from "./routes/Room";
-import './App.css';
+import Login from './routes/SignIn'
+import "./App.css";
+import { auth } from "./firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+
 
 function App() {
+  const [user] = useAuthState(auth);
+  if (!user) {
+    return <Login />;
+  }
   return (
     <div className="App">
       <BrowserRouter>

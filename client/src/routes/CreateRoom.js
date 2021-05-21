@@ -1,15 +1,17 @@
 import React from "react";
 import { v1 as uuid } from "uuid";
+import { auth, firestore } from "../firebase";
 
 const CreateRoom = (props) => {
-    function create() {
-        const id = uuid();
-        props.history.push(`/room/${id}`);
-    }
+  const roomid = uuid();
+  function create() {
+    props.history.push(`/room/${roomid}`);
 
-    return (
-        <button onClick={create}>Create Room</button>
-    );
-}
+    //firestore.collection('users').doc(auth.currentUser).update(newRoomData);
+    firestore.collection("users").doc(auth.currentUser.uid).collection('usersRooms').doc(roomid).set({roomid: roomid});
+    
+  }
+  return <button onClick={create}>Create Room</button>;
+};
 
 export default CreateRoom;
